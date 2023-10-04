@@ -1,0 +1,53 @@
+package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
+
+import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import java.io.IOException;
+
+@WebServlet(name = "registerServlet", urlPatterns = "/register")
+public class RegisterServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession(false) != null) {
+            resp.getWriter().println("You are already registered");
+        }
+        else {
+            req.getRequestDispatcher("register.html").forward(req, resp);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String firstName = req.getParameter("first_name");
+        String lastName = req.getParameter("last_name");
+        Integer age = (!req.getParameter("age").equals("")) ? Integer.parseInt(req.getParameter("age")) : null;
+        String email = req.getParameter("email");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+
+        User newUser = new User(null, firstName, lastName, age, email, login, password);
+
+        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
+        User userByLogin = usersRepository.getByLogin(login);
+        User userByEmail = usersRepository.getByEmail(email);
+        if (userByLogin != null) {
+            resp.getWriter().println("A user with this username already exists.");
+        }
+        if (userByEmail != null) {
+            resp.getWriter().println("This email is already occupied.");
+        }
+        if (userByLogin == null && userByEmail == null) {
+            usersRepository.save(
+                    new User(null, firstName, lastName, age, email, login, password)
+
+            );
+
+            resp.sendRedirect("/login");
+        }
+    }
+}

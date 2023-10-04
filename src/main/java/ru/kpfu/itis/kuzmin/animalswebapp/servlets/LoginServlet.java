@@ -1,4 +1,8 @@
-package ru.kpfu.itis.kuzmin.servlets;
+package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
+
+import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,8 +11,6 @@ import java.io.IOException;
 
 @WebServlet(name = "loginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-    public static final String LOGIN = "login";
-    public static final String PASSWORD = "password";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession(false) != null) {
@@ -35,7 +37,10 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (LOGIN.equalsIgnoreCase(login) && PASSWORD.equals(password)) {
+
+        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
+        User user = usersRepository.getByLogin(login);
+        if (user != null && user.getLogin().equals(login) && user.getPassword().equals(password)) {
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("username", login);
             httpSession.setMaxInactiveInterval(60*60);
