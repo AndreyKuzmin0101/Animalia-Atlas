@@ -14,6 +14,9 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
             "values (?, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_BY_LOGIN = "select * from users where login = ?";
     public static final String SQL_GET_BY_EMAIL = "select * from users where email = ?";
+    public static final String SQL_UPDATE = "update users set first_name = ?, last_name = ?, age = ?, " +
+            "email = ?, login = ?, password = ? " +
+            "where id = ?";
 
     @Override
     public void save(User model) {
@@ -28,7 +31,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
             statement.setString(i++, model.getPassword());
 
             if (statement.executeUpdate() != 1) {
-                throw new SQLException("Cannot insert student");
+                throw new SQLException("Cannot insert user");
             }
 
             try (ResultSet generatedIds = statement.getGeneratedKeys()){
@@ -38,6 +41,28 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
                     throw new SQLException("Cannot retrieve id");
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void update(User model) {
+        try (PreparedStatement statement = DatabaseConnectionUtil.getConnection()
+                .prepareStatement(SQL_UPDATE)) {
+            int i = 1;
+            statement.setString(i++, model.getFirstName());
+            statement.setString(i++, model.getLastName());
+            statement.setInt(i++, model.getAge());
+            statement.setString(i++, model.getEmail());
+            statement.setString(i++, model.getLogin());
+            statement.setString(i++, model.getPassword());
+            statement.setInt(i++, model.getId());
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("Cannot update user");
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

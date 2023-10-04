@@ -18,7 +18,8 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
-        User user = usersRepository.getByLogin((String) req.getSession().getAttribute("login"));
+        User user = usersRepository.getByLogin((String) req.getSession(false).getAttribute("login"));
+
 
         req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
                 user.getAge(), user.getEmail()));
@@ -30,6 +31,6 @@ public class ProfileServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/profile/settings");
+        resp.sendRedirect("/settings");
     }
 }

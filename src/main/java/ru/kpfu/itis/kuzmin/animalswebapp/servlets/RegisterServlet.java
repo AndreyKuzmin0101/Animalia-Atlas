@@ -42,10 +42,7 @@ public class RegisterServlet extends HttpServlet {
             resp.getWriter().println("This email is already occupied.");
         }
         if (userByLogin == null && userByEmail == null) {
-            usersRepository.save(
-                    new User(null, firstName, lastName, age, email, login, password)
-
-            );
+            usersRepository.save(newUser);
 
             resp.sendRedirect("/login");
         }

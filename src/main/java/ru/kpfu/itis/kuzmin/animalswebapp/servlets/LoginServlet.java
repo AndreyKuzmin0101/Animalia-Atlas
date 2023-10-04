@@ -20,8 +20,8 @@ public class LoginServlet extends HttpServlet {
             boolean authentication = false;
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                    if ("username".equalsIgnoreCase(cookie.getName())) {
-                        HttpSession httpSession = req.getSession();
+                    if ("login".equalsIgnoreCase(cookie.getName())) {
+                        HttpSession httpSession = req.getSession(true);
                         httpSession.setAttribute("login", cookie.getValue());
                         authentication = true;
                         resp.getWriter().println("Login successful!");
@@ -42,18 +42,18 @@ public class LoginServlet extends HttpServlet {
         UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
         User user = usersRepository.getByLogin(login);
         if (user != null && user.getLogin().equals(login) && user.getPassword().equals(password)) {
-            HttpSession httpSession = req.getSession();
-            httpSession.setAttribute("username", login);
+            HttpSession httpSession = req.getSession(true);
+            httpSession.setAttribute("login", login);
             httpSession.setMaxInactiveInterval(60*60);
 
             if ("on".equals(req.getParameter("remember"))) {
-                Cookie cookie = new Cookie("username", login);
+                Cookie cookie = new Cookie("login", login);
                 cookie.setMaxAge(24*60*60);
                 resp.addCookie(cookie);
             }
 
 
-            //...
+            resp.sendRedirect("/profile");
         } else {
             resp.sendRedirect("/login");
         }
