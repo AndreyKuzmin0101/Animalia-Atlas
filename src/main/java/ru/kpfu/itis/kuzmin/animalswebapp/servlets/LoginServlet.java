@@ -17,18 +17,19 @@ public class LoginServlet extends HttpServlet {
             resp.getWriter().println("You have already authenticated.");
         } else {
             Cookie[] cookies = req.getCookies();
+            boolean authentication = false;
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if ("username".equalsIgnoreCase(cookie.getName())) {
                         HttpSession httpSession = req.getSession();
-                        httpSession.setAttribute("username", cookie.getValue());
-
+                        httpSession.setAttribute("login", cookie.getValue());
+                        authentication = true;
                         resp.getWriter().println("Login successful!");
                     }
                 }
-            } else {
-                req.getRequestDispatcher("login.html").forward(req, resp);
             }
+
+            if (!authentication) req.getRequestDispatcher("login.html").forward(req, resp);
         }
     }
 
@@ -45,9 +46,12 @@ public class LoginServlet extends HttpServlet {
             httpSession.setAttribute("username", login);
             httpSession.setMaxInactiveInterval(60*60);
 
-            Cookie cookie = new Cookie("username", login);
-            cookie.setMaxAge(24*60*60);
-            resp.addCookie(cookie);
+            if ("on".equals(req.getParameter("remember"))) {
+                Cookie cookie = new Cookie("username", login);
+                cookie.setMaxAge(24*60*60);
+                resp.addCookie(cookie);
+            }
+
 
             //...
         } else {
