@@ -5,6 +5,7 @@ import ru.kpfu.itis.kuzmin.animalswebapp.dto.UserDTO;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.UserWriteService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,31 +37,12 @@ public class SettingsServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
-        User userByLogin = null;
-        if (!user.getLogin().equals(login) && !"".equals(login)) {
-            userByLogin = usersRepository.getByLogin(login);
-            if (userByLogin != null) {
-                resp.getWriter().println("A user with this username already exists.");
-            }
-        }
-        User userByEmail = null;
-        if (!user.getEmail().equals(email) && !"".equals(email)) {
-            userByEmail = usersRepository.getByEmail(email);
-            if (userByEmail != null) {
-                resp.getWriter().println("This email is already occupied.");
-            }
-        }
-
-        if (!"".equals(firstName)) user.setFirstName(firstName);
-        if (!"".equals(lastName)) user.setLastName(lastName);
-        if (age != null) user.setAge(age);
-        if (!"".equals(email)) user.setEmail(email);
-        if (!"".equals(login)) user.setLogin(login);
-        if (!"".equals(password)) user.setPassword(password);
-
-        if (userByLogin == null && userByEmail == null) {
-            usersRepository.update(user);
+        String result = UserWriteService.writeUser(user, new User(
+                user.getId(), firstName, lastName, age, email, login, password
+        ));
+        if (result != null) {
+            resp.getWriter().println(result);
+        } else {
             resp.sendRedirect("/logout");
         }
     }

@@ -3,6 +3,7 @@ package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.UserWriteService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,20 +31,13 @@ public class RegisterServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        User newUser = new User(null, firstName, lastName, age, email, login, password);
+        String result = UserWriteService.writeUser(null, new User(
+                null, firstName, lastName, age, email, login, password
+        ));
 
-        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
-        User userByLogin = usersRepository.getByLogin(login);
-        User userByEmail = usersRepository.getByEmail(email);
-        if (userByLogin != null) {
-            resp.getWriter().println("A user with this username already exists.");
-        }
-        if (userByEmail != null) {
-            resp.getWriter().println("This email is already occupied.");
-        }
-        if (userByLogin == null && userByEmail == null) {
-            usersRepository.save(newUser);
-
+        if (result != null) {
+            resp.getWriter().println(result);
+        } else {
             resp.sendRedirect("/login");
         }
     }
