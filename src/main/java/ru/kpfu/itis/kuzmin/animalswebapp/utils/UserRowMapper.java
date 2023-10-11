@@ -15,7 +15,8 @@ public class UserRowMapper implements RowMapper<User> {
                 resultSet.getInt(4),
                 resultSet.getString(5),
                 resultSet.getString(6),
-                resultSet.getString(7)
+                resultSet.getString(7),
+                resultSet.getString(8)
         );
     }
 }

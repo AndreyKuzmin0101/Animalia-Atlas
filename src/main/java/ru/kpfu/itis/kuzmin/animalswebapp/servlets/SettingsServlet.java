@@ -23,7 +23,7 @@ public class SettingsServlet extends HttpServlet {
         user = usersRepository.getByLogin((String) req.getSession().getAttribute("login"));
 
         req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
-                user.getAge(), user.getEmail()));
+                user.getAge(), user.getEmail(), user.getImage()));
 
         req.getRequestDispatcher("settings.ftl").forward(req, resp);
     }
@@ -38,7 +38,7 @@ public class SettingsServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         String result = UserWriteService.writeUser(user, new User(
-                user.getId(), firstName, lastName, age, email, login, password
+                user.getId(), firstName, lastName, age, email, login, password, user.getImage()
         ));
         if (result != null) {
             resp.getWriter().println(result);

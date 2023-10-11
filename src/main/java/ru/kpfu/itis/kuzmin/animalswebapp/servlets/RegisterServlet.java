@@ -32,7 +32,7 @@ public class RegisterServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         String result = UserWriteService.writeUser(null, new User(
-                null, firstName, lastName, age, email, login, password
+                null, firstName, lastName, age, email, login, password, ""
         ));
 
         if (result != null) {

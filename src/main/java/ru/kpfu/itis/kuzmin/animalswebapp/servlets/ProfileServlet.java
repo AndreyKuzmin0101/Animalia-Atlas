@@ -22,7 +22,7 @@ public class ProfileServlet extends HttpServlet {
 
 
         req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
-                user.getAge(), user.getEmail()));
+                user.getAge(), user.getEmail(), user.getImage()));
         HttpSession httpSession = req.getSession(false);
 
 

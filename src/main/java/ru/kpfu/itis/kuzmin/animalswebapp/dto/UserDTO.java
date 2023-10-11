@@ -6,13 +6,19 @@ public class UserDTO {
     private String login;
     private Integer age;
     private String email;
+    private String image;
 
-    public UserDTO(String firstName, String lastName, String login, Integer age, String email) {
+    public UserDTO(String firstName, String lastName, String login, Integer age, String email, String image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.age = age;
         this.email = email;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getFirstName() {

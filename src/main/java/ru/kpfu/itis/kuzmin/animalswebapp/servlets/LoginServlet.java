@@ -15,6 +15,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession(false) != null) {
             resp.getWriter().println("You have already authenticated.");
+            resp.sendRedirect("/profile");
         } else {
             Cookie[] cookies = req.getCookies();
             boolean authentication = false;
@@ -25,6 +26,7 @@ public class LoginServlet extends HttpServlet {
                         httpSession.setAttribute("login", cookie.getValue());
                         authentication = true;
                         resp.getWriter().println("Login successful!");
+                        resp.sendRedirect("/profile");
                     }
                 }
             }

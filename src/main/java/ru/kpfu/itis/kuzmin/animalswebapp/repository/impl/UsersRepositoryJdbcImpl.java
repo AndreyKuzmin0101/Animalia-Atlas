@@ -10,12 +10,12 @@ import java.sql.*;
 import java.util.Optional;
 
 public class UsersRepositoryJdbcImpl implements UsersRepository {
-    public static final String SQL_SAVE = "insert into users (first_name, last_name, age, email, login, password)\n" +
-            "values (?, ?, ?, ?, ?, ?)";
+    public static final String SQL_SAVE = "insert into users (first_name, last_name, age, email, login, password, image)\n" +
+            "values (?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_BY_LOGIN = "select * from users where login = ?";
     public static final String SQL_GET_BY_EMAIL = "select * from users where email = ?";
     public static final String SQL_UPDATE = "update users set first_name = ?, last_name = ?, age = ?, " +
-            "email = ?, login = ?, password = ? " +
+            "email = ?, login = ?, password = ?, image = ? " +
             "where id = ?";
 
     @Override
@@ -57,6 +57,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
             statement.setString(i++, model.getEmail());
             statement.setString(i++, model.getLogin());
             statement.setString(i++, model.getPassword());
+            statement.setString(i++, model.getImage());
             statement.setInt(i++, model.getId());
 
             if (statement.executeUpdate() != 1) {

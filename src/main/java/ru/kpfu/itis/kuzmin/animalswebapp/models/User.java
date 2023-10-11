@@ -9,8 +9,9 @@ public class User {
     private String login;
     private String password;
 
+    private String image;
     public User(Integer id, String firstName, String lastName, Integer age,
-                String email, String login, String password) {
+                String email, String login, String password, String image) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -18,6 +19,15 @@ public class User {
         this.email = email;
         this.login = login;
         this.password = password;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Integer getId() {

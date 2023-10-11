@@ -16,12 +16,16 @@ public class UserWriteService {
             if (!(oldUser != null && !updatedUser.getLogin().equals("") &&
                     oldUser.getLogin().equals(updatedUser.getLogin()))){
                 return "A user with this username already exists.";
+            } else {
+                userByLogin = null;
             }
         }
         if (userByEmail != null) {
             if (!(oldUser != null && !updatedUser.getEmail().equals("") &&
                     oldUser.getEmail().equals(updatedUser.getEmail()))){
                 return "This email is already occupied.";
+            } else {
+                userByEmail = null;
             }
         }
         if (userByLogin == null && userByEmail == null) {
