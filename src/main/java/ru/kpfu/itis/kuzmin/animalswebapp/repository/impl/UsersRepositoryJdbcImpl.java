@@ -4,16 +4,16 @@ import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.DatabaseConnectionUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.RowMapper;
-import ru.kpfu.itis.kuzmin.animalswebapp.utils.UserRowMapper;
+import ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl.UserRowMapper;
 
 import java.sql.*;
-import java.util.Optional;
 
 public class UsersRepositoryJdbcImpl implements UsersRepository {
     public static final String SQL_SAVE = "insert into users (first_name, last_name, age, email, login, password, image)\n" +
             "values (?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_BY_LOGIN = "select * from users where login = ?";
     public static final String SQL_GET_BY_EMAIL = "select * from users where email = ?";
+    public static final String SQL_GET_BY_ID = "select * from users where id = ?";
     public static final String SQL_UPDATE = "update users set first_name = ?, last_name = ?, age = ?, " +
             "email = ?, login = ?, password = ?, image = ? " +
             "where id = ?";
@@ -77,6 +77,23 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
     @Override
     public User getByEmail(String email) {
         return getByUniqueStringField(SQL_GET_BY_EMAIL, email);
+    }
+
+    @Override
+    public User getById(Integer id) {
+        User user = null;
+        RowMapper<User> rowMapper = new UserRowMapper();
+        try (PreparedStatement statement = DatabaseConnectionUtil.getConnection().prepareStatement(SQL_GET_BY_ID)){
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()){
+                if (resultSet.next()) {
+                    user = rowMapper.from(resultSet, 1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
     }
 
     private User getByUniqueStringField(String SQL, String field) {

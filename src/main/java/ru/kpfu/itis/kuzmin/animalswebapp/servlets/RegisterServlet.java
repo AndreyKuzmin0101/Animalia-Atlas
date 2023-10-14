@@ -1,9 +1,7 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
-import ru.kpfu.itis.kuzmin.animalswebapp.services.UserWriteService;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.UserServices;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +29,7 @@ public class RegisterServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        String result = UserWriteService.writeUser(null, new User(
+        String result = UserServices.writeUser(null, new User(
                 null, firstName, lastName, age, email, login, password, ""
         ));
 

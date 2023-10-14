@@ -4,7 +4,7 @@ import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
 
-public class UserWriteService {
+public class UserServices {
 
     public static String writeUser(User oldUser, User updatedUser) {
         UsersRepository usersRepository = new UsersRepositoryJdbcImpl();

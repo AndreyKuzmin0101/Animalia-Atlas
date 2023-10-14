@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" type="text/css" href="styles/group1/styles-group1.css" />
+    <link rel="stylesheet" type="text/css" href="styles/styles-group1.css" />
 </head>
 <body>
 <div class="avatar-container">

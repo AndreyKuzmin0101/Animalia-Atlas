@@ -5,7 +5,7 @@ import ru.kpfu.itis.kuzmin.animalswebapp.dto.UserDTO;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
-import ru.kpfu.itis.kuzmin.animalswebapp.services.UserWriteService;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.UserServices;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +37,7 @@ public class SettingsServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        String result = UserWriteService.writeUser(user, new User(
+        String result = UserServices.writeUser(user, new User(
                 user.getId(), firstName, lastName, age, email, login, password, user.getImage()
         ));
         if (result != null) {

@@ -1,0 +1,64 @@
+package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
+
+import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
+import ru.kpfu.itis.kuzmin.animalswebapp.models.Comment;
+import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.AnimalRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.CommentRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.AnimalRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.CommentRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.CommentServices;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.List;
+
+
+@WebServlet(name = "commentServlet", urlPatterns = "/comments")
+
+public class CommentServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String animalEnName = req.getParameter("animal");
+        List<Comment> comments = CommentServices.getComments(animalEnName);
+
+        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
+
+        StringBuilder response = new StringBuilder();
+        for (Comment comment : comments) {
+            User user = usersRepository.getById(comment.getUserId());
+            response.append(
+                            "<div class=\"comment\">\n").append(
+                            "    <img class=\"comment-avatar\" src=\"").append(user.getImage()).append("\" alt=\"Аватар Пользователя\">\n").append(
+                            "        <div class=\"comment-content\">\n").append(
+                            "            <div class=\"comment-user\">").append(user.getFirstName()).append(" ").append(user.getLastName()).append("</div>\n").append(
+                            "            <div class=\"comment-date\">").append(comment.getDateSend().toString().substring(0, 19)).append("</div>\n").append(
+                            "            <p class=\"comment-text\">").append(comment.getContent()).append("</p>\n").append(
+                            "        </div>\n").append(
+                            "</div>\n"
+            );
+        }
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().println(response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer userId = Integer.valueOf(req.getSession(false).getAttribute("id").toString());
+        String content = req.getParameter("content");
+        Integer animalId = Integer.valueOf(req.getSession(false).getAttribute("animal_id").toString());
+        Timestamp dateSend = new Timestamp(System.currentTimeMillis());
+
+        CommentRepository commentRepository = new CommentRepositoryJdbcImpl();
+        commentRepository.save(new Comment(
+                null, userId, content, dateSend, animalId
+        ));
+    }
+}

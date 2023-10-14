@@ -1,12 +1,11 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.api.ApiResponse;
 import com.cloudinary.utils.ObjectUtils;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
 import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
-import ru.kpfu.itis.kuzmin.animalswebapp.services.UserWriteService;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.UserServices;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.CloudinaryUtil;
 
 import javax.servlet.ServletException;
@@ -21,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 @WebServlet(name = "fileUploadingServlet", urlPatterns= "/upload")
 @MultipartConfig(
@@ -63,7 +61,7 @@ public class FileUploadingServlet extends HttpServlet {
                 "https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath
         );
 
-        UserWriteService.writeUser(user, updateUser);
+        UserServices.writeUser(user, updateUser);
         resp.sendRedirect("/profile");
     }
 

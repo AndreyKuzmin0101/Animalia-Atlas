@@ -1,8 +1,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SETTINGS</title>
-    <link rel="stylesheet" type="text/css" href="styles/group1/styles-group1.css" />
+    <title>Settings</title>
+    <link rel="stylesheet" type="text/css" href="styles/styles-group1.css" />
 </head>
 <body>
 <div class="container">

@@ -1,7 +1,8 @@
-package ru.kpfu.itis.kuzmin.animalswebapp.utils;
+package ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl;
 
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
+import ru.kpfu.itis.kuzmin.animalswebapp.utils.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

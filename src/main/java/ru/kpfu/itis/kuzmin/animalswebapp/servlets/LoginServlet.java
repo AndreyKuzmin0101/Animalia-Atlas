@@ -22,11 +22,16 @@ public class LoginServlet extends HttpServlet {
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if ("login".equalsIgnoreCase(cookie.getName())) {
+                        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
+                        User user = usersRepository.getByLogin(cookie.getValue());
                         HttpSession httpSession = req.getSession(true);
-                        httpSession.setAttribute("login", cookie.getValue());
+                        httpSession.setAttribute("login", user.getLogin());
+                        httpSession.setAttribute("id", user.getId());
+                        httpSession.setAttribute("image", user.getImage());
                         authentication = true;
                         resp.getWriter().println("Login successful!");
                         resp.sendRedirect("/profile");
+                        break;
                     }
                 }
             }
@@ -40,13 +45,15 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-
         UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
         User user = usersRepository.getByLogin(login);
-        if (user != null && user.getLogin().equals(login) && user.getPassword().equals(password)) {
+        if (user != null && user.getPassword().equals(password)) {
             HttpSession httpSession = req.getSession(true);
             httpSession.setAttribute("login", login);
+            httpSession.setAttribute("id", user.getId());
+            httpSession.setAttribute("image", user.getImage());
             httpSession.setMaxInactiveInterval(60*60);
+
 
             if ("on".equals(req.getParameter("remember"))) {
                 Cookie cookie = new Cookie("login", login);
@@ -60,4 +67,5 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("/login");
         }
     }
+
 }

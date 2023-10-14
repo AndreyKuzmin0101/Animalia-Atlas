@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "profileServlet", urlPatterns = "/profile")
@@ -23,8 +22,6 @@ public class ProfileServlet extends HttpServlet {
 
         req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
                 user.getAge(), user.getEmail(), user.getImage()));
-        HttpSession httpSession = req.getSession(false);
-
 
         req.getRequestDispatcher("profile.ftl").forward(req, resp);
     }
