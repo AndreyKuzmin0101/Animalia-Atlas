@@ -1,14 +1,14 @@
-package ru.kpfu.itis.kuzmin.animalswebapp.repository.impl;
+package ru.kpfu.itis.kuzmin.animalswebapp.dao.impl;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.DatabaseConnectionUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.RowMapper;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl.UserRowMapper;
 
 import java.sql.*;
 
-public class UsersRepositoryJdbcImpl implements UsersRepository {
+public class UsersDaoJdbcImpl implements UsersDao {
     public static final String SQL_SAVE = "insert into users (first_name, last_name, age, email, login, password, image)\n" +
             "values (?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_GET_BY_LOGIN = "select * from users where login = ?";

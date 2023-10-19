@@ -1,7 +1,7 @@
-package ru.kpfu.itis.kuzmin.animalswebapp.repository.impl;
+package ru.kpfu.itis.kuzmin.animalswebapp.dao.impl;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Comment;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.CommentRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.CommentDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.DatabaseConnectionUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.RowMapper;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl.CommentRowMapper;
@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentRepositoryJdbcImpl implements CommentRepository {
+public class CommentDaoJdbcImpl implements CommentDao {
     public static final String SQL_SAVE = "insert into comments(user_id, content, date_send, animal_id)\n" +
             "values (?, ?, ?, ?)";
     public static final String SQL_GET_BY_ANIMAL_ID_DESC = "select * from comments where animal_id = ? order by date_send desc";

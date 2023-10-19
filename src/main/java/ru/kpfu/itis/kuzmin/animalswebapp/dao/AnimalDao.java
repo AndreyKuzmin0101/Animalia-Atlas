@@ -1,7 +1,7 @@
-package ru.kpfu.itis.kuzmin.animalswebapp.repository;
+package ru.kpfu.itis.kuzmin.animalswebapp.dao;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
 
-public interface AnimalRepository {
+public interface AnimalDao {
     Animal getByEnName(String name);
 }

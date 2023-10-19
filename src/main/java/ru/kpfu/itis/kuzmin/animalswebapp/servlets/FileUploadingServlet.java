@@ -3,8 +3,8 @@ package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
 import ru.kpfu.itis.kuzmin.animalswebapp.services.UserServices;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.CloudinaryUtil;
 
@@ -54,8 +54,8 @@ public class FileUploadingServlet extends HttpServlet {
 
         cloudinary.uploader().upload(file, ObjectUtils.asMap("public_id", imagePath));
 
-        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
-        User user = usersRepository.getByLogin(login);
+        UsersDao usersDao = new UsersDaoJdbcImpl();
+        User user = usersDao.getByLogin(login);
         User updateUser = new User(user.getId(), user.getFirstName(), user.getLastName(),
                 user.getAge(), user.getEmail(), user.getLogin(), user.getPassword(),
                 "https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath

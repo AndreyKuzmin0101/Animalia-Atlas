@@ -1,10 +1,7 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.utils;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnectionUtil {
@@ -15,19 +12,14 @@ public class DatabaseConnectionUtil {
 
     private static Connection connection;
 
+    private DatabaseConnectionUtil(){}
+
     public static Connection getConnection() {
         if (connection == null) {
-            HikariConfig hikariConfig = new HikariConfig();
-            hikariConfig.setUsername("postgres");
-            hikariConfig.setPassword("qwerty1234");
-            hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:5432/animals_webapp_db");
-            hikariConfig.setDriverClassName("org.postgresql.Driver");
-
-            DataSource dataSource = new HikariDataSource(hikariConfig);
-
             try {
-                connection = dataSource.getConnection();
-            } catch (SQLException e) {
+                Class.forName(DRIVER);
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }

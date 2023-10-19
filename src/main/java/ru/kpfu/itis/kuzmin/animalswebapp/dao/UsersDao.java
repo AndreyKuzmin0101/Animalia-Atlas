@@ -1,8 +1,10 @@
-package ru.kpfu.itis.kuzmin.animalswebapp.repository;
+package ru.kpfu.itis.kuzmin.animalswebapp.dao;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 
-public interface UsersRepository extends CrudRepository<User> {
+public interface UsersDao {
+    void save(User model);
+    void update(User model);
     User getByLogin(String login);
     User getByEmail(String email);
     User getById(Integer id);

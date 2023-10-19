@@ -1,18 +1,16 @@
-package ru.kpfu.itis.kuzmin.animalswebapp.repository.impl;
+package ru.kpfu.itis.kuzmin.animalswebapp.dao.impl;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
-import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.AnimalRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.AnimalDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.DatabaseConnectionUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.RowMapper;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl.AnimalRowMapper;
-import ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl.UserRowMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AnimalRepositoryJdbcImpl implements AnimalRepository {
+public class AnimalDaoJdbcImpl implements AnimalDao {
     public static final String SQL_GET_BY_NAME = "select * from animals where en_name = ?";
     @Override
     public Animal getByEnName(String enName) {

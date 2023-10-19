@@ -1,16 +1,16 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.services;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
 
 public class UserServices {
 
     public static String writeUser(User oldUser, User updatedUser) {
-        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
+        UsersDao usersDao = new UsersDaoJdbcImpl();
 
-        User userByLogin = usersRepository.getByLogin(updatedUser.getLogin());
-        User userByEmail = usersRepository.getByEmail(updatedUser.getEmail());
+        User userByLogin = usersDao.getByLogin(updatedUser.getLogin());
+        User userByEmail = usersDao.getByEmail(updatedUser.getEmail());
 
         if (userByLogin != null) {
             if (!(oldUser != null && !updatedUser.getLogin().equals("") &&
@@ -36,10 +36,10 @@ public class UserServices {
                 if ("".equals(updatedUser.getEmail())) updatedUser.setEmail(oldUser.getEmail());
                 if ("".equals(updatedUser.getLogin())) updatedUser.setLogin(oldUser.getLogin());
                 if ("".equals(updatedUser.getPassword())) updatedUser.setPassword(oldUser.getPassword());
-                usersRepository.update(updatedUser);
+                usersDao.update(updatedUser);
             }
             else {
-                usersRepository.save(updatedUser);
+                usersDao.save(updatedUser);
             }
         }
         return null;

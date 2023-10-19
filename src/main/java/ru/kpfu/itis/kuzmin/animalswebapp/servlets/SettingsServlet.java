@@ -3,8 +3,8 @@ package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.dto.UserDTO;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
 import ru.kpfu.itis.kuzmin.animalswebapp.services.UserServices;
 
 import javax.servlet.ServletException;
@@ -19,8 +19,8 @@ public class SettingsServlet extends HttpServlet {
     private User user;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
-        user = usersRepository.getByLogin((String) req.getSession().getAttribute("login"));
+        UsersDao usersDao = new UsersDaoJdbcImpl();
+        user = usersDao.getByLogin((String) req.getSession().getAttribute("login"));
 
         req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
                 user.getAge(), user.getEmail(), user.getImage()));

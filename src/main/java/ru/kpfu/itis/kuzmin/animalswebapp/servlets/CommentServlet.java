@@ -1,14 +1,11 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
-import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Comment;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.AnimalRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.CommentRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.AnimalRepositoryJdbcImpl;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.CommentRepositoryJdbcImpl;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.CommentDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.CommentDaoJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
 import ru.kpfu.itis.kuzmin.animalswebapp.services.CommentServices;
 
 import javax.servlet.ServletException;
@@ -29,11 +26,11 @@ public class CommentServlet extends HttpServlet {
         String animalEnName = req.getParameter("animal");
         List<Comment> comments = CommentServices.getComments(animalEnName);
 
-        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
+        UsersDao usersDao = new UsersDaoJdbcImpl();
 
         StringBuilder response = new StringBuilder();
         for (Comment comment : comments) {
-            User user = usersRepository.getById(comment.getUserId());
+            User user = usersDao.getById(comment.getUserId());
             response.append(
                             "<div class=\"comment\">\n").append(
                             "    <img class=\"comment-avatar\" src=\"").append(user.getImage()).append("\" alt=\"Аватар Пользователя\">\n").append(
@@ -56,8 +53,8 @@ public class CommentServlet extends HttpServlet {
         Integer animalId = Integer.valueOf(req.getSession(false).getAttribute("animal_id").toString());
         Timestamp dateSend = new Timestamp(System.currentTimeMillis());
 
-        CommentRepository commentRepository = new CommentRepositoryJdbcImpl();
-        commentRepository.save(new Comment(
+        CommentDao commentDao = new CommentDaoJdbcImpl();
+        commentDao.save(new Comment(
                 null, userId, content, dateSend, animalId
         ));
     }

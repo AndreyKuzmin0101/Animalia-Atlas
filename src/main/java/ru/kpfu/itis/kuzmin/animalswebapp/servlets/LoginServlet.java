@@ -1,8 +1,8 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.UsersRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.UsersRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +22,8 @@ public class LoginServlet extends HttpServlet {
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if ("login".equalsIgnoreCase(cookie.getName())) {
-                        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
-                        User user = usersRepository.getByLogin(cookie.getValue());
+                        UsersDao usersDao = new UsersDaoJdbcImpl();
+                        User user = usersDao.getByLogin(cookie.getValue());
                         HttpSession httpSession = req.getSession(true);
                         httpSession.setAttribute("login", user.getLogin());
                         httpSession.setAttribute("id", user.getId());
@@ -45,8 +45,8 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        UsersRepository usersRepository = new UsersRepositoryJdbcImpl();
-        User user = usersRepository.getByLogin(login);
+        UsersDao usersDao = new UsersDaoJdbcImpl();
+        User user = usersDao.getByLogin(login);
         if (user != null && user.getPassword().equals(password)) {
             HttpSession httpSession = req.getSession(true);
             httpSession.setAttribute("login", login);

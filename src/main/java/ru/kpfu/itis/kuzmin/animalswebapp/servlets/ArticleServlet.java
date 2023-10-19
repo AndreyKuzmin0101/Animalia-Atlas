@@ -1,8 +1,8 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.AnimalRepository;
-import ru.kpfu.itis.kuzmin.animalswebapp.repository.impl.AnimalRepositoryJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.AnimalDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.AnimalDaoJdbcImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +15,8 @@ import java.io.IOException;
 public class ArticleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AnimalRepository animalRepository = new AnimalRepositoryJdbcImpl();
-        Animal animal = animalRepository.getByEnName(req.getParameter("animal"));
+        AnimalDao animalDao = new AnimalDaoJdbcImpl();
+        Animal animal = animalDao.getByEnName(req.getParameter("animal"));
         req.setAttribute("image", animal.getImage());
         if (req.getSession(false) != null) req.getSession(false).setAttribute("animal_id", animal.getId());
         req.getRequestDispatcher(req.getServletPath() + "/" + req.getParameter("animal") + ".ftl").forward(req, resp);
