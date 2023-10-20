@@ -16,7 +16,7 @@ import java.io.IOException;
 public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsersDao usersDao = new UsersDaoJdbcImpl();
+        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin((String) req.getSession(false).getAttribute("login"));
 
 

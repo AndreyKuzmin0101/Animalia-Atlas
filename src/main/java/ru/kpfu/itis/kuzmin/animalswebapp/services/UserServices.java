@@ -6,8 +6,7 @@ import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
 
 public class UserServices {
 
-    public static String writeUser(User oldUser, User updatedUser) {
-        UsersDao usersDao = new UsersDaoJdbcImpl();
+    public static String writeUser(User oldUser, User updatedUser, UsersDao usersDao) {
 
         User userByLogin = usersDao.getByLogin(updatedUser.getLogin());
         User userByEmail = usersDao.getByEmail(updatedUser.getEmail());

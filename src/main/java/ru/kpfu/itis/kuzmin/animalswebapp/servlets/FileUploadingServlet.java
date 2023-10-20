@@ -54,14 +54,14 @@ public class FileUploadingServlet extends HttpServlet {
 
         cloudinary.uploader().upload(file, ObjectUtils.asMap("public_id", imagePath));
 
-        UsersDao usersDao = new UsersDaoJdbcImpl();
+        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin(login);
         User updateUser = new User(user.getId(), user.getFirstName(), user.getLastName(),
                 user.getAge(), user.getEmail(), user.getLogin(), user.getPassword(),
                 "https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath
         );
 
-        UserServices.writeUser(user, updateUser);
+        UserServices.writeUser(user, updateUser, (UsersDao) req.getServletContext().getAttribute("usersDao"));
         resp.sendRedirect("/profile");
     }
 

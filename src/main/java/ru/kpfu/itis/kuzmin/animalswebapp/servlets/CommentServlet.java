@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.AnimalDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Comment;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.CommentDao;
@@ -24,9 +25,12 @@ public class CommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String animalEnName = req.getParameter("animal");
-        List<Comment> comments = CommentServices.getComments(animalEnName);
+        List<Comment> comments = CommentServices.getComments(animalEnName,
+                (CommentDao) req.getServletContext().getAttribute("commentDao"),
+                (AnimalDao) req.getServletContext().getAttribute("animalDao")
+        );
 
-        UsersDao usersDao = new UsersDaoJdbcImpl();
+        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
 
         StringBuilder response = new StringBuilder();
         for (Comment comment : comments) {
@@ -53,7 +57,7 @@ public class CommentServlet extends HttpServlet {
         Integer animalId = Integer.valueOf(req.getSession(false).getAttribute("animal_id").toString());
         Timestamp dateSend = new Timestamp(System.currentTimeMillis());
 
-        CommentDao commentDao = new CommentDaoJdbcImpl();
+        CommentDao commentDao = (CommentDao) req.getServletContext().getAttribute("commentDao");
         commentDao.save(new Comment(
                 null, userId, content, dateSend, animalId
         ));

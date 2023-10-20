@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if ("login".equalsIgnoreCase(cookie.getName())) {
-                        UsersDao usersDao = new UsersDaoJdbcImpl();
+                        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
                         User user = usersDao.getByLogin(cookie.getValue());
                         HttpSession httpSession = req.getSession(true);
                         httpSession.setAttribute("login", user.getLogin());
@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        UsersDao usersDao = new UsersDaoJdbcImpl();
+        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin(login);
         if (user != null && user.getPassword().equals(password)) {
             HttpSession httpSession = req.getSession(true);

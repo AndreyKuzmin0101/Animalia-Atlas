@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.services.UserServices;
 
@@ -30,8 +31,9 @@ public class RegisterServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         String result = UserServices.writeUser(null, new User(
-                null, firstName, lastName, age, email, login, password, ""
-        ));
+                null, firstName, lastName, age, email, login, password, ""),
+                (UsersDao) req.getServletContext().getAttribute("usersDao")
+        );
 
         if (result != null) {
             resp.getWriter().println(result);

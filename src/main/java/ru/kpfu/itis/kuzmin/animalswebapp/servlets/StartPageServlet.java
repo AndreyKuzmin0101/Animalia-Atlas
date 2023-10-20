@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
+import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.dto.AnimalDTO;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.AnimalDao;
@@ -18,7 +19,7 @@ public class StartPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        AnimalDao animalDao = new AnimalDaoJdbcImpl();
+        AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
         Animal lion = animalDao.getByEnName("lion");
         Animal cat = animalDao.getByEnName("cat");
         Animal fish = animalDao.getByEnName("fish");

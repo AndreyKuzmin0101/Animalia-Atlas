@@ -15,7 +15,7 @@ import java.io.IOException;
 public class ArticleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AnimalDao animalDao = new AnimalDaoJdbcImpl();
+        AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
         Animal animal = animalDao.getByEnName(req.getParameter("animal"));
         req.setAttribute("image", animal.getImage());
         if (req.getSession(false) != null) req.getSession(false).setAttribute("animal_id", animal.getId());

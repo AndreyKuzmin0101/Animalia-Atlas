@@ -19,7 +19,7 @@ public class SettingsServlet extends HttpServlet {
     private User user;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsersDao usersDao = new UsersDaoJdbcImpl();
+        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         user = usersDao.getByLogin((String) req.getSession().getAttribute("login"));
 
         req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
@@ -38,8 +38,9 @@ public class SettingsServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         String result = UserServices.writeUser(user, new User(
-                user.getId(), firstName, lastName, age, email, login, password, user.getImage()
-        ));
+                user.getId(), firstName, lastName, age, email, login, password, user.getImage()),
+                (UsersDao) req.getServletContext().getAttribute("usersDao")
+        );
         if (result != null) {
             resp.getWriter().println(result);
         } else {
