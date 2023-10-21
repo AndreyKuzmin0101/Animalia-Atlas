@@ -20,33 +20,14 @@ footer {
     margin-top: auto;
 }
 
-nav {
-    background-color: #3d464d;
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-}
 
-nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 16px;
-    margin: 0 8px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-nav a:hover {
-    background-color: #4caf50;
-}
 
 .container {
     background-color: #2c3338;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    margin: 20px auto;
+    margin: 20px;
     text-align: center;
     color: #fff;
 }
@@ -168,4 +149,32 @@ nav a:hover {
 
 .comment-text {
     color: #fff;
+}
+/**/
+nav {
+    background-color: #3d464d;
+}
+
+nav a {
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #4caf50;
+}
+.nav-link {
+    color: #ffffff;
+}
+
+.card {
+    background-color: #3d464d;
+    color: white;
+}
+
+.filter {
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }

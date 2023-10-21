@@ -2,7 +2,6 @@ package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.AnimalDao;
-import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.AnimalDaoJdbcImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

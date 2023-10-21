@@ -21,12 +21,8 @@ public class StartPageServlet extends HttpServlet {
 
         AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
         Animal lion = animalDao.getByEnName("lion");
-        Animal cat = animalDao.getByEnName("cat");
-        Animal fish = animalDao.getByEnName("fish");
 
         req.setAttribute("lion", new AnimalDTO(lion.getName(), lion.getDescription(), lion.getImage(), lion.getEnName()));
-        req.setAttribute("cat", new AnimalDTO(cat.getName(), cat.getDescription(), cat.getImage(), cat.getEnName()));
-        req.setAttribute("fish", new AnimalDTO(fish.getName(), fish.getDescription(), fish.getImage(), fish.getEnName()));
 
         req.getRequestDispatcher("index.ftl").forward(req, resp);
     }
