@@ -3,6 +3,7 @@ package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
+import ru.kpfu.itis.kuzmin.animalswebapp.utils.PasswordUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,16 +45,17 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
+        String safePassword = PasswordUtil.encrypt(password);
 
         UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin(login);
-        if (user != null && user.getPassword().equals(password)) {
+
+        if (user != null && user.getPassword().equals(safePassword)) {
             HttpSession httpSession = req.getSession(true);
             httpSession.setAttribute("login", login);
             httpSession.setAttribute("id", user.getId());
             httpSession.setAttribute("image", user.getImage());
             httpSession.setMaxInactiveInterval(60*60);
-
 
             if ("on".equals(req.getParameter("remember"))) {
                 Cookie cookie = new Cookie("login", login);

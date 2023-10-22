@@ -29,6 +29,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
             statement.setString(i++, model.getEmail());
             statement.setString(i++, model.getLogin());
             statement.setString(i++, model.getPassword());
+            statement.setString(i++, model.getImage());
 
             if (statement.executeUpdate() != 1) {
                 throw new SQLException("Cannot insert user");

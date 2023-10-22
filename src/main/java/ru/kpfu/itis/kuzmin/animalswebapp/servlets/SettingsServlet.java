@@ -32,15 +32,17 @@ public class SettingsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String firstName = req.getParameter("first_name");
         String lastName = req.getParameter("last_name");
-        Integer age = (!req.getParameter("age").equals("")) ? Integer.parseInt(req.getParameter("age")) : null;
+        Integer age = (!req.getParameter("age").equals("")) ? Integer.parseInt(req.getParameter("age")) : 0;
         String email = req.getParameter("email");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        String result = UserServices.writeUser(user, new User(
+        String result = UserServices.updateUser(user, new User(
                 user.getId(), firstName, lastName, age, email, login, password, user.getImage()),
                 (UsersDao) req.getServletContext().getAttribute("usersDao")
         );
+        resp.setCharacterEncoding("UTF-8");
+        resp.setHeader("Content-Type", "text/plain; charset=utf-8");
         if (result != null) {
             resp.getWriter().println(result);
         } else {

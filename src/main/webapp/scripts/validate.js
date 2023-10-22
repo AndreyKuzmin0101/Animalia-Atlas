@@ -1,0 +1,17 @@
+function submit_form(event){
+    let email = $('#email').val();
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    let password = $('#password').val();
+    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
+    if (email.length !== 0 && !emailRegex.test(email)) {
+        event.preventDefault();
+        alert('Email не прошёл верификацию.');
+    }
+
+    if (password.length !== 0 && !passwordRegex.test(password)) {
+        event.preventDefault();
+        alert('Пароль не удовлетворяет требованиям.');
+    }
+}

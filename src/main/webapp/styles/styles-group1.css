@@ -121,3 +121,7 @@ input {
     padding: 8px;
     margin-bottom: 8px;
 }
+
+h6 {
+    color: #888;
+}

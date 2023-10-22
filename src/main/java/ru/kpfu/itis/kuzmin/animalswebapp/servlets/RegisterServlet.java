@@ -3,6 +3,7 @@ package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.services.UserServices;
+import ru.kpfu.itis.kuzmin.animalswebapp.utils.PasswordUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,16 +26,18 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String firstName = req.getParameter("first_name");
         String lastName = req.getParameter("last_name");
-        Integer age = (!req.getParameter("age").equals("")) ? Integer.parseInt(req.getParameter("age")) : null;
+        Integer age = (!req.getParameter("age").equals("")) ? Integer.parseInt(req.getParameter("age")) : 0;
         String email = req.getParameter("email");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        String result = UserServices.writeUser(null, new User(
+        String result = UserServices.saveUser(new User(
                 null, firstName, lastName, age, email, login, password, ""),
                 (UsersDao) req.getServletContext().getAttribute("usersDao")
         );
 
+        resp.setCharacterEncoding("UTF-8");
+        resp.setHeader("Content-Type", "text/plain; charset=utf-8");
         if (result != null) {
             resp.getWriter().println(result);
         } else {

@@ -22,8 +22,6 @@ public class SearchServlet extends HttpServlet {
         String query = req.getParameter("query");
         String categoryEnName = req.getParameter("category");
 
-        System.out.println(query + " " + categoryEnName);
-
         List<Animal> animals = new ArrayList<>();
 
         CategoryDao categoryDao = (CategoryDao) req.getServletContext().getAttribute("categoryDao");
