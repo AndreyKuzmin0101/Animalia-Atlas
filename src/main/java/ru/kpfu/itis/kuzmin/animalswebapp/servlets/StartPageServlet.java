@@ -1,6 +1,6 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.servlets;
 
-import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
+
 import ru.kpfu.itis.kuzmin.animalswebapp.dto.AnimalDTO;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Animal;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.AnimalDao;
@@ -21,8 +21,12 @@ public class StartPageServlet extends HttpServlet {
 
         AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
         Animal lion = animalDao.getByEnName("lion");
+        Animal japaneseSable = animalDao.getByEnName("japanese sable");
+        Animal stripedHyena = animalDao.getByEnName("striped hyena");
 
         req.setAttribute("lion", new AnimalDTO(lion.getName(), lion.getDescription(), lion.getImage(), lion.getEnName()));
+        req.setAttribute("japaneseSable", new AnimalDTO(japaneseSable.getName(), japaneseSable.getDescription(), japaneseSable.getImage(), japaneseSable.getEnName()));
+        req.setAttribute("stripedHyena", new AnimalDTO(stripedHyena.getName(), stripedHyena.getDescription(), stripedHyena.getImage(), stripedHyena.getEnName()));
 
         req.getRequestDispatcher("index.ftl").forward(req, resp);
     }

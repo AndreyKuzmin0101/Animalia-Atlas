@@ -16,6 +16,10 @@ public class ArticleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
         Animal animal = animalDao.getByEnName(req.getParameter("animal"));
+        if (animal == null) {
+            resp.sendRedirect("404.ftl");
+            return;
+        }
         req.setAttribute("image", animal.getImage());
         if (req.getSession(false) != null) req.getSession(false).setAttribute("animal_id", animal.getId());
         req.getRequestDispatcher(req.getServletPath() + "/" + req.getParameter("animal") + ".ftl").forward(req, resp);

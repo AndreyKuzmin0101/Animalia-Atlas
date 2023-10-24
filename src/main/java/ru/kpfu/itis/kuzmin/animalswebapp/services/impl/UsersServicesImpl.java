@@ -1,13 +1,14 @@
-package ru.kpfu.itis.kuzmin.animalswebapp.services;
+package ru.kpfu.itis.kuzmin.animalswebapp.services.impl;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.UsersServices;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.PasswordUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.ValidatorUtil;
 
-public class UserServices {
-
-    public static String saveUser(User newUser, UsersDao usersDao) {
+public class UsersServicesImpl implements UsersServices {
+    @Override
+    public String saveUser(User newUser, UsersDao usersDao) {
 
         User userByLogin = usersDao.getByLogin(newUser.getLogin());
         User userByEmail = usersDao.getByEmail(newUser.getEmail());
@@ -33,7 +34,8 @@ public class UserServices {
         usersDao.save(newUser);
         return null;
     }
-    public static String updateUser(User oldUser, User updatedUser, UsersDao usersDao) {
+    @Override
+    public String updateUser(User oldUser, User updatedUser, UsersDao usersDao) {
 
         if ("".equals(updatedUser.getFirstName())) updatedUser.setFirstName(oldUser.getFirstName());
         if ("".equals(updatedUser.getLastName())) updatedUser.setLastName(oldUser.getLastName());
@@ -72,8 +74,8 @@ public class UserServices {
         return null;
 
     }
-
-    public static void updateUserImage(User updatedUser, UsersDao usersDao) {
+    @Override
+    public void updateUserImage(User updatedUser, UsersDao usersDao) {
         usersDao.update(updatedUser);
     }
 

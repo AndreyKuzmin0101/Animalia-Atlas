@@ -5,9 +5,8 @@ import ru.kpfu.itis.kuzmin.animalswebapp.models.Comment;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.CommentDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
-import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.CommentDaoJdbcImpl;
-import ru.kpfu.itis.kuzmin.animalswebapp.dao.impl.UsersDaoJdbcImpl;
 import ru.kpfu.itis.kuzmin.animalswebapp.services.CommentServices;
+import ru.kpfu.itis.kuzmin.animalswebapp.services.impl.CommentServicesImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,11 +20,14 @@ import java.util.List;
 
 @WebServlet(name = "commentServlet", urlPatterns = "/comments")
 
+//TODO: переделать формат ответа
 public class CommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String animalEnName = req.getParameter("animal");
-        List<Comment> comments = CommentServices.getComments(animalEnName,
+
+        CommentServices commentServices = (CommentServices) req.getServletContext().getAttribute("commentServices");
+        List<Comment> comments = commentServices.getComments(animalEnName,
                 (CommentDao) req.getServletContext().getAttribute("commentDao"),
                 (AnimalDao) req.getServletContext().getAttribute("animalDao")
         );

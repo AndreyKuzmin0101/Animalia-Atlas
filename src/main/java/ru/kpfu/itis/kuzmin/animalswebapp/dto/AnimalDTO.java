@@ -36,4 +36,12 @@ public class AnimalDTO {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getEnName() {
+        return enName;
+    }
+
+    public void setEnName(String enName) {
+        this.enName = enName;
+    }
 }

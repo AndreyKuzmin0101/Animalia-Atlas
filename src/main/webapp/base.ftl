@@ -11,11 +11,18 @@
 
 <body>
 <header>
-    <h1>Сайт о животных</h1>
+    <div style="text-align: left">
+        <div style="display:inline-block; width: 62%; text-align: right">
+            <h1>Сайт о животных</h1>
+        </div>
+        <div id="header-buttons" style="display: inline-block; width: 37%; text-align: right"></div>
+    </div>
+
+
 
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/" style="color:#ffffff;">Главная</a>
+            <a class="navbar-brand" href="/" style="color:#ffffff; padding-left: 6px; padding-right: 6px">Главная</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -89,6 +96,7 @@
     </nav>
 
 </header>
+<script src="/scripts/header.js"></script>
 
 <@content/>
 
