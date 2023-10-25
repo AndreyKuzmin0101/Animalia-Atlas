@@ -1,4 +1,4 @@
-<#import "/comments-macros.ftl" as comments>
+<#import "/likes-comments-macros.ftl" as comments>
 
 <#macro title>Статья о львах</#macro>
 
@@ -45,6 +45,14 @@
 
             Ослы, или домашние ослики, представляют собой уникальных и полезных существ в мире животных. Их адаптивные характеристики и важная роль в истории и современных обществах подчеркивают их ценность. Дальнейшие исследования ослов и усилия по сохранению их популяций могут способствовать их благополучию и сохранению в будущем.
         </div>
+        <div>
+            <button id="like-button" class="like-button">
+                <img src="/images/like.png" width="40px">
+                Лайк
+            </button>
+            <span id="like-count">${likes}</span>
+        </div>
+        <script src="/scripts/like.js"></script>
     </div>
 
     <@comments.comments/>

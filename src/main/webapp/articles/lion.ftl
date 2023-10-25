@@ -1,4 +1,4 @@
-<#import "/comments-macros.ftl" as comments>
+<#import "/likes-comments-macros.ftl" as like_comments>
 
 <#macro title>Статья о львах</#macro>
 
@@ -44,9 +44,19 @@
                 природы и оказывают глубокое влияние на человеческую культуру. Они требуют нашего внимания и защиты для
                 сохранения биоразнообразия нашей планеты.</p>
         </div>
+        <div>
+            <button id="like-button" class="like-button">
+                <img src="/images/like.png" width="40px">
+                Лайк
+            </button>
+            <span id="like-count">${likes}</span>
+        </div>
+        <script src="/scripts/like.js"></script>
+
     </div>
 
-    <@comments.comments/>
+    <@like_comments.comments/>
+
 </#macro>
 
 

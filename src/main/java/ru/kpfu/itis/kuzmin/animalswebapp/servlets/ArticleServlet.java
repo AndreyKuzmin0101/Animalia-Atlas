@@ -21,6 +21,7 @@ public class ArticleServlet extends HttpServlet {
             return;
         }
         req.setAttribute("image", animal.getImage());
+        req.setAttribute("likes", String.valueOf(animal.getLikes()));
         if (req.getSession(false) != null) req.getSession(false).setAttribute("animal_id", animal.getId());
         req.getRequestDispatcher(req.getServletPath() + "/" + req.getParameter("animal") + ".ftl").forward(req, resp);
     }

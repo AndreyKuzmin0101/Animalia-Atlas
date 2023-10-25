@@ -1,4 +1,4 @@
-<#import "/comments-macros.ftl" as comments>
+<#import "/likes-comments-macros.ftl" as comments>
 
 <#macro title>Статья о львах</#macro>
 
@@ -50,6 +50,14 @@
 
             Японский соболь (Mustela sibirica nippon) представляет собой интересный и важный вид млекопитающих, который требует дальнейшего изучения и защиты. Его роль в экосистеме Японии и его уникальные характеристики делают его важным объектом для научных исследований и усилий по сохранению.
         </div>
+        <div>
+            <button id="like-button" class="like-button">
+                <img src="/images/like.png" width="40px">
+                Лайк
+            </button>
+            <span id="like-count">${likes}</span>
+        </div>
+        <script src="/scripts/like.js"></script>
     </div>
 
     <@comments.comments/>

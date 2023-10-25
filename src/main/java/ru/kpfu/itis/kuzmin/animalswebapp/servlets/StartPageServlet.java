@@ -24,9 +24,9 @@ public class StartPageServlet extends HttpServlet {
         Animal japaneseSable = animalDao.getByEnName("japanese sable");
         Animal stripedHyena = animalDao.getByEnName("striped hyena");
 
-        req.setAttribute("lion", new AnimalDTO(lion.getName(), lion.getDescription(), lion.getImage(), lion.getEnName()));
-        req.setAttribute("japaneseSable", new AnimalDTO(japaneseSable.getName(), japaneseSable.getDescription(), japaneseSable.getImage(), japaneseSable.getEnName()));
-        req.setAttribute("stripedHyena", new AnimalDTO(stripedHyena.getName(), stripedHyena.getDescription(), stripedHyena.getImage(), stripedHyena.getEnName()));
+        req.setAttribute("lion", new AnimalDTO(lion.getName(), lion.getDescription(), lion.getImage(), lion.getEnName(), lion.getLikes()));
+        req.setAttribute("japaneseSable", new AnimalDTO(japaneseSable.getName(), japaneseSable.getDescription(), japaneseSable.getImage(), japaneseSable.getEnName(), japaneseSable.getLikes()));
+        req.setAttribute("stripedHyena", new AnimalDTO(stripedHyena.getName(), stripedHyena.getDescription(), stripedHyena.getImage(), stripedHyena.getEnName(), stripedHyena.getLikes()));
 
         req.getRequestDispatcher("index.ftl").forward(req, resp);
     }

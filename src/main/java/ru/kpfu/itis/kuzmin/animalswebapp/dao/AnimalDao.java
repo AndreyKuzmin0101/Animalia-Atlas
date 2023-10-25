@@ -10,4 +10,5 @@ public interface AnimalDao {
     List<Animal> getByCategoryId(Integer id);
 
     List<Animal> getAll();
+    void updateLikes(Integer animalId, Integer likes);
 }

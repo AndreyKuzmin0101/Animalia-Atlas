@@ -1,4 +1,4 @@
-<#import "/comments-macros.ftl" as comments>
+<#import "/likes-comments-macros.ftl" as comments>
 
 <#macro title>Статья о львах</#macro>
 
@@ -50,6 +50,14 @@
 
             Полосатая гиена представляет собой уникального и важного представителя мировой фауны. Ее морфология, экология и поведение вносят вклад в экологическое равновесие там, где она обитает. Однако угрозы ее выживанию требуют непрерывного внимания и усилий по сохранению этого вида. Дальнейшие исследования и образовательные программы могут способствовать сохранению полосатой гиены и ее естественных сред.
         </div>
+        <div>
+            <button id="like-button" class="like-button">
+                <img src="/images/like.png" width="40px">
+                Лайк
+            </button>
+            <span id="like-count">${likes}</span>
+        </div>
+        <script src="/scripts/like.js"></script>
     </div>
 
     <@comments.comments/>
