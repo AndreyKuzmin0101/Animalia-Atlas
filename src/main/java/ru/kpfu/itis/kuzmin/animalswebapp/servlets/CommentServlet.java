@@ -20,7 +20,6 @@ import java.util.List;
 
 @WebServlet(name = "commentServlet", urlPatterns = "/comments")
 
-//TODO: переделать формат ответа
 public class CommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,12 +38,12 @@ public class CommentServlet extends HttpServlet {
             User user = usersDao.getById(comment.getUserId());
             response.append(
                             "<div class=\"comment\">\n").append(
-                            "    <img class=\"comment-avatar\" src=\"").append(user.getImage()).append("\" alt=\"Аватар Пользователя\">\n").append(
-                            "        <div class=\"comment-content\">\n").append(
-                            "            <div class=\"comment-user\">").append(user.getFirstName()).append(" ").append(user.getLastName()).append("</div>\n").append(
-                            "            <div class=\"comment-date\">").append(comment.getDateSend().toString().substring(0, 19)).append("</div>\n").append(
-                            "            <p class=\"comment-text\">").append(comment.getContent()).append("</p>\n").append(
-                            "        </div>\n").append(
+                            "    <img class=\"comment-avatar\" src=\"").append(user.getImage()).append(">\n").append(
+                            "    <div class=\"comment-content\">\n").append(
+                            "        <div class=\"comment-user\">").append(user.getFirstName()).append(" ").append(user.getLastName()).append("</div>\n").append(
+                            "        <div class=\"comment-date\">").append(comment.getDateSend().toString().substring(0, 19)).append("</div>\n").append(
+                            "        <p class=\"comment-text\">").append(comment.getContent()).append("</p>\n").append(
+                            "    </div>\n").append(
                             "</div>\n"
             );
         }
@@ -61,7 +60,7 @@ public class CommentServlet extends HttpServlet {
 
         CommentDao commentDao = (CommentDao) req.getServletContext().getAttribute("commentDao");
         commentDao.save(new Comment(
-                null, userId, content, dateSend, animalId
+                null, userId, content, dateSend, animalId, 0
         ));
     }
 }

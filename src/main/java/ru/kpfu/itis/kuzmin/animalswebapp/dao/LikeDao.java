@@ -1,0 +1,7 @@
+package ru.kpfu.itis.kuzmin.animalswebapp.dao;
+
+public interface LikeDao {
+    boolean saveLikeAnimal(Integer user_id, Integer animal_id);
+    boolean deleteLikeAnimal(Integer user_id, Integer animal_id);
+
+}

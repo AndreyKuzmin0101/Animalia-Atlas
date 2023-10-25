@@ -14,7 +14,8 @@ public class AnimalRowMapper implements RowMapper<Animal> {
                 resultSet.getString(2),
                 resultSet.getString(3),
                 resultSet.getString(4),
-                resultSet.getString(5)
+                resultSet.getString(5),
+                resultSet.getInt(6)
         );
     }
 }

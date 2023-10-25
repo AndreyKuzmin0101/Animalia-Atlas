@@ -14,7 +14,8 @@ public class CommentRowMapper implements RowMapper<Comment> {
                 resultSet.getInt(2),
                 resultSet.getString(3),
                 resultSet.getTimestamp(4),
-                resultSet.getInt(5)
+                resultSet.getInt(5),
+                resultSet.getInt(6)
         );
     }
 }

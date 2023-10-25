@@ -2,9 +2,11 @@ package ru.kpfu.itis.kuzmin.animalswebapp.dao.impl;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.models.Comment;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.CommentDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.DatabaseConnectionUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.RowMapper;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl.CommentRowMapper;
+import ru.kpfu.itis.kuzmin.animalswebapp.utils.rowmapperimpl.UserRowMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,9 +16,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDaoJdbcImpl implements CommentDao {
+    public static final String SQL_GET_BY_ID = "select * from comments where id = ?";
     public static final String SQL_SAVE = "insert into comments(user_id, content, date_send, animal_id)\n" +
             "values (?, ?, ?, ?)";
     public static final String SQL_GET_BY_ANIMAL_ID_DESC = "select * from comments where animal_id = ? order by date_send desc";
+    public static final String SQL_UPDATE_LIKES = "update comments set likes = ? where id = ?";
+
+    @Override
+    public Comment getById(Integer id) {
+        Comment comment = null;
+        RowMapper<Comment> rowMapper = new CommentRowMapper();
+        try (PreparedStatement statement = DatabaseConnectionUtil.getConnection().prepareStatement(SQL_GET_BY_ID)){
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()){
+                if (resultSet.next()) {
+                    comment = rowMapper.from(resultSet, 1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return comment;
+    }
+
     @Override
     public void save(Comment comment) {
         try (PreparedStatement statement = DatabaseConnectionUtil.getConnection()
@@ -59,5 +81,21 @@ public class CommentDaoJdbcImpl implements CommentDao {
             throw new RuntimeException(e);
         }
         return comments;
+    }
+
+    @Override
+    public void updateLikes(Integer commentId, Integer likes) {
+        try (PreparedStatement statement = DatabaseConnectionUtil.getConnection().prepareStatement(SQL_UPDATE_LIKES)) {
+            int i = 1;
+            statement.setInt(i++, likes);
+            statement.setInt(i++, commentId);
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("Cannot update comment");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

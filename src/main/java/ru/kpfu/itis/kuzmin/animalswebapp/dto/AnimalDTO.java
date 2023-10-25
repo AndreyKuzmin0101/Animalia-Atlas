@@ -5,12 +5,22 @@ public class AnimalDTO {
     private String description;
     private String image;
     private String enName;
+    private Integer likes;
 
-    public AnimalDTO(String name, String description, String image, String enName) {
+    public AnimalDTO(String name, String description, String image, String enName, Integer likes) {
         this.name = name;
         this.description = description;
         this.image = image;
         this.enName = enName;
+        this.likes = likes;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public String getName() {

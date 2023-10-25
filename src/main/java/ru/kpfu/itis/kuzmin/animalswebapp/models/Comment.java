@@ -8,13 +8,23 @@ public class Comment {
     private String content;
     private Timestamp dateSend;
     private Integer animalId;
+    private Integer likes;
 
-    public Comment(Integer id, Integer userId, String content, Timestamp dateSend, Integer animalId) {
+    public Comment(Integer id, Integer userId, String content, Timestamp dateSend, Integer animalId, Integer likes) {
         this.id = id;
         this.userId = userId;
         this.content = content;
         this.dateSend = dateSend;
         this.animalId = animalId;
+        this.likes = likes;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public Integer getId() {

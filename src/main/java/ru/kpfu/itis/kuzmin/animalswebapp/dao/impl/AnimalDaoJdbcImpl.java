@@ -18,6 +18,8 @@ public class AnimalDaoJdbcImpl implements AnimalDao {
     public static final String SQL_GET_IDS_BY_CATEGORY_ID = "select * from animal_category where category_id = ?";
     public static final String SQL_GET_BY_ID = "select * from animals where id = ?";
     public static final String SQL_GET_ALL = "select * from animals";
+    public static final String SQL_UPDATE_LIKES = "update animals set likes = ? where id = ?";
+
     @Override
     public Animal getByEnName(String enName) {
         Animal animal = null;
@@ -101,6 +103,21 @@ public class AnimalDaoJdbcImpl implements AnimalDao {
             throw new RuntimeException(e);
         }
         return animals;
+    }
+
+    @Override
+    public void updateLikes(Integer animalId, Integer likes) {
+        try (PreparedStatement statement = DatabaseConnectionUtil.getConnection().prepareStatement(SQL_UPDATE_LIKES)) {
+            int i = 1;
+            statement.setInt(i++, likes);
+            statement.setInt(i++, animalId);
+
+            if (statement.executeUpdate() != 1) {
+                throw new SQLException("Cannot update animal");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

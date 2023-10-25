@@ -6,12 +6,22 @@ public class Animal {
     private String description;
     private String image;
     private String enName;
-    public Animal(Integer id, String name, String description, String image, String enName) {
+    private Integer likes;
+    public Animal(Integer id, String name, String description, String image, String enName, Integer likes) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;
         this.enName = enName;
+        this.likes = likes;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public String getEnName() {
