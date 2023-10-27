@@ -1,5 +1,5 @@
 <#macro title>Сайт о животных</#macro>
-<#macro scripts></#macro>
+<#macro parametrs></#macro>
 
 <#macro content>
   <div class="container">

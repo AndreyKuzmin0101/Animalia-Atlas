@@ -34,8 +34,7 @@ public class RegisterServlet extends HttpServlet {
         UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
 
         String result = usersServices.saveUser(new User(
-                null, firstName, lastName, age, email, login, password, ""),
-                (UsersDao) req.getServletContext().getAttribute("usersDao")
+                null, firstName, lastName, age, email, login, password, "https://res.cloudinary.com/debjgvnym/image/upload/bjgclwsmr3lkkpsjeebg.png")
         );
 
         resp.setCharacterEncoding("UTF-8");

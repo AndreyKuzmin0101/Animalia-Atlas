@@ -20,7 +20,7 @@ public class ProfileServlet extends HttpServlet {
         User user = usersDao.getByLogin((String) req.getSession(false).getAttribute("login"));
 
 
-        req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
+        req.setAttribute("user", new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(),
                 user.getAge(), user.getEmail(), user.getImage()));
 
         req.getRequestDispatcher("profile.ftl").forward(req, resp);

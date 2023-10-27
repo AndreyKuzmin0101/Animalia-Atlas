@@ -1,5 +1,5 @@
 <#macro title>Exception details</#macro>
-<#macro scripts></#macro>
+<#macro parametrs></#macro>
 
 <#macro content>
     <div class="exception">

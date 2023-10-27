@@ -1,6 +1,7 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.dto;
 
 public class UserDTO {
+    private Integer id;
     private String firstName;
     private String lastName;
     private String login;
@@ -8,13 +9,18 @@ public class UserDTO {
     private String email;
     private String image;
 
-    public UserDTO(String firstName, String lastName, String login, Integer age, String email, String image) {
+    public UserDTO(Integer id, String firstName, String lastName, String login, Integer age, String email, String image) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.age = age;
         this.email = email;
         this.image = image;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getImage() {

@@ -59,7 +59,7 @@ public class FileUploadingServlet extends HttpServlet {
         user.setImage("https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath);
 
         UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
-        usersServices.updateUserImage(user, (UsersDao) req.getServletContext().getAttribute("usersDao"));
+        usersServices.updateUserImage(user);
         resp.sendRedirect("/profile");
     }
 

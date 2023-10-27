@@ -1,5 +1,5 @@
 <#macro title>Список животных</#macro>
-<#macro scripts></#macro>
+<#macro parametrs></#macro>
 
 <#macro content>
     <div class="container">

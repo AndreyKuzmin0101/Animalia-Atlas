@@ -1,14 +1,23 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.services.impl;
 
+import ru.kpfu.itis.kuzmin.animalswebapp.dto.UserDTO;
 import ru.kpfu.itis.kuzmin.animalswebapp.models.User;
 import ru.kpfu.itis.kuzmin.animalswebapp.dao.UsersDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.services.UsersServices;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.PasswordUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.utils.ValidatorUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UsersServicesImpl implements UsersServices {
+    private UsersDao usersDao;
+    public UsersServicesImpl(UsersDao usersDao) {
+        this.usersDao = usersDao;
+    }
+
     @Override
-    public String saveUser(User newUser, UsersDao usersDao) {
+    public String saveUser(User newUser) {
 
         User userByLogin = usersDao.getByLogin(newUser.getLogin());
         User userByEmail = usersDao.getByEmail(newUser.getEmail());
@@ -35,7 +44,7 @@ public class UsersServicesImpl implements UsersServices {
         return null;
     }
     @Override
-    public String updateUser(User oldUser, User updatedUser, UsersDao usersDao) {
+    public String updateUser(User oldUser, User updatedUser) {
 
         if ("".equals(updatedUser.getFirstName())) updatedUser.setFirstName(oldUser.getFirstName());
         if ("".equals(updatedUser.getLastName())) updatedUser.setLastName(oldUser.getLastName());
@@ -75,8 +84,29 @@ public class UsersServicesImpl implements UsersServices {
 
     }
     @Override
-    public void updateUserImage(User updatedUser, UsersDao usersDao) {
+    public void updateUserImage(User updatedUser) {
         usersDao.update(updatedUser);
+    }
+
+    public List<UserDTO> getAll() {
+        List<User> users = usersDao.getAll();
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for (User user : users) {
+            usersDTO.add(new UserDTO(
+                    user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAge(), user.getEmail(), user.getImage()
+            ));
+        }
+
+        return usersDTO;
+    }
+
+    @Override
+    public UserDTO getById(Integer id) {
+        User user = usersDao.getById(id);
+        if (user != null) {
+            return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAge(), user.getEmail(), user.getImage());
+        }
+        return null;
     }
 
 }

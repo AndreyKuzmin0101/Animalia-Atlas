@@ -2,7 +2,7 @@
 
 <#macro title>Статья о львах</#macro>
 
-<#macro scripts>
+<#macro parametrs>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="/scripts/comments.js"></script>
 </#macro>

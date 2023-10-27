@@ -22,7 +22,7 @@ public class SettingsServlet extends HttpServlet {
         UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         user = usersDao.getByLogin((String) req.getSession().getAttribute("login"));
 
-        req.setAttribute("user", new UserDTO(user.getFirstName(), user.getLastName(), user.getLogin(),
+        req.setAttribute("user", new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(),
                 user.getAge(), user.getEmail(), user.getImage()));
 
         req.getRequestDispatcher("settings.ftl").forward(req, resp);
@@ -39,8 +39,7 @@ public class SettingsServlet extends HttpServlet {
 
         UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
         String result = usersServices.updateUser(user, new User(
-                user.getId(), firstName, lastName, age, email, login, password, user.getImage()),
-                (UsersDao) req.getServletContext().getAttribute("usersDao")
+                user.getId(), firstName, lastName, age, email, login, password, user.getImage())
         );
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("Content-Type", "text/plain; charset=utf-8");

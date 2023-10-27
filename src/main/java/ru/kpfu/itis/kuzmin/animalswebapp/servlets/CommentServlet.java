@@ -20,17 +20,13 @@ import java.util.List;
 
 @WebServlet(name = "commentServlet", urlPatterns = "/comments")
 
-//TODO: переделать формат ответа
 public class CommentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String animalEnName = req.getParameter("animal");
 
         CommentServices commentServices = (CommentServices) req.getServletContext().getAttribute("commentServices");
-        List<Comment> comments = commentServices.getComments(animalEnName,
-                (CommentDao) req.getServletContext().getAttribute("commentDao"),
-                (AnimalDao) req.getServletContext().getAttribute("animalDao")
-        );
+        List<Comment> comments = commentServices.getComments(animalEnName);
 
         UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
 

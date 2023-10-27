@@ -9,7 +9,7 @@
 <body>
 <div class="avatar-container">
     <div class="avatar" style="padding: 10px">
-        <img <#if user.image = "">src="dog.png" <#else> src="${user.image}" </#if> width="150px">
+        <img <#if user.image = "">src="https://res.cloudinary.com/debjgvnym/image/upload/bjgclwsmr3lkkpsjeebg.png" <#else> src="${user.image}" </#if> width="150px">
         <form action="upload" method="post" enctype="multipart/form-data">
             <label for="file">Аватарка</label>
             <input type="file" name="file" id="file" accept=".png, .jpg, .jpeg">
