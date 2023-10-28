@@ -1,8 +1,10 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.model.dao;
 
-public interface LikeDao {
-    boolean saveLikeAnimal(Integer user_id, Integer animal_id);
-    boolean deleteLikeAnimal(Integer user_id, Integer animal_id);
-    boolean findLikeAnimal(Integer user_id, Integer animal_id);
+import java.util.List;
 
+public interface LikeDao {
+    boolean saveLikeAnimal(Integer userId, Integer animalId);
+    boolean deleteLikeAnimal(Integer userId, Integer animalId);
+    boolean findLikeAnimal(Integer userId, Integer animalId);
+    List<Integer> getAnimalIdsByUserId(Integer userId);
 }

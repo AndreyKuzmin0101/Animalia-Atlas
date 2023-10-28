@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-@WebFilter(filterName = "authenticationFilter", urlPatterns = {"/profile", "/settings"})
+@WebFilter(filterName = "authenticationFilter", urlPatterns = {"/profile", "/settings", "/favourite-articles"})
 public class AuthenticationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

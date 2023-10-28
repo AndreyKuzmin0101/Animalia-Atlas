@@ -67,14 +67,14 @@
                         <a class="nav-link" href="/search?category=Insects">Насекомые</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/search?category=Extinct">Вымершие</a>
+                        <a class="nav-link" href="/users">Пользователи</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users">Пользователи</a>
+                        <button class="nav-link" id="favourite">Понравившиеся ❤️</button>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-input">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-input" style="width: 150px">
                     <button class="btn btn-outline-success" type="button" id="search-button">Search</button>
                     <select class="filter" id="filter">
                         <option value="">Фильтр</option>
@@ -97,6 +97,7 @@
                 </form>
             </div>
         </div>
+        <script src="/view/scripts/favourite.js"></script>
     </nav>
 
 </header>

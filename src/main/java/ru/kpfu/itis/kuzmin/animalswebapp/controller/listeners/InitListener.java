@@ -2,8 +2,10 @@ package ru.kpfu.itis.kuzmin.animalswebapp.controller.listeners;
 
 import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.AnimalDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.CommentDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.LikeDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.UsersDao;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.impl.*;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.services.impl.AnimalServicesImpl;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.services.impl.CommentServicesImpl;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.services.impl.UsersServicesImpl;
 
@@ -26,6 +28,7 @@ public class InitListener implements ServletContextListener {
         CommentDao commentDao = (CommentDao) sce.getServletContext().getAttribute("commentDao");
         AnimalDao animalDao = (AnimalDao) sce.getServletContext().getAttribute("animalDao");
         sce.getServletContext().setAttribute("commentServices", new CommentServicesImpl(commentDao, animalDao));
-
+        LikeDao likeDao = (LikeDao) sce.getServletContext().getAttribute("likeDao");
+        sce.getServletContext().setAttribute("animalServices", new AnimalServicesImpl(animalDao, likeDao));
     }
 }
