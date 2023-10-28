@@ -30,6 +30,6 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/404.ftl</location>
+        <location>/view/404.ftl</location>
     </error-page>
 </web-app>
