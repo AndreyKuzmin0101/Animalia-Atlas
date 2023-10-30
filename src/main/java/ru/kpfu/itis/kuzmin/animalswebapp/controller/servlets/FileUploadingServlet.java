@@ -48,14 +48,14 @@ public class FileUploadingServlet extends HttpServlet {
             }
         }
 
-        filename = removeTypeFile(filename);
-        String imagePath = login + "/" + currentTimeMillis + "/" + filename;
+        String filenameForCloudinary = removeTypeFile(filename);
+        String imagePath = login + "/" + currentTimeMillis + "/";
 
-        cloudinary.uploader().upload(file, ObjectUtils.asMap("public_id", imagePath));
+        cloudinary.uploader().upload(file, ObjectUtils.asMap("public_id", imagePath + filenameForCloudinary));
 
         UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin(login);
-        user.setImage("https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath);
+        user.setImage("https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath + filename);
 
         UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
         usersServices.updateUserImage(user);

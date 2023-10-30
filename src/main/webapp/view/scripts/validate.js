@@ -1,4 +1,10 @@
 function submit_form(event){
+    let age = $('#age').val();
+    if (Number(age) > 150 || Number(age) < 0) {
+        event.preventDefault();
+        alert('Возраст не может быть меньше 0 и превышать 150.');
+    }
+
     let email = $('#email').val();
     const emailRegex = /^\S+@\S+\.\S+$/;
 

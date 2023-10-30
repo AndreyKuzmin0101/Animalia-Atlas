@@ -1,6 +1,6 @@
 <#import "/view/likes-comments-macros.ftl" as comments>
 
-<#macro title>Статья о львах</#macro>
+<#macro title>Статья об осле</#macro>
 
 <#macro parametrs>
     <script src="/view/scripts/comments.js"></script>

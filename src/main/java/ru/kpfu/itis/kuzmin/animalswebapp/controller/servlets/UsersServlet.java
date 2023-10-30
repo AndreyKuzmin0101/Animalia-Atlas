@@ -29,7 +29,6 @@ public class UsersServlet extends HttpServlet {
         } else {
 
             List<UserDTO> users = usersServices.getAll();
-            System.out.println(users);
             req.setAttribute("users", users);
             req.getRequestDispatcher("/view/list_users.ftl").forward(req, resp);
         }
