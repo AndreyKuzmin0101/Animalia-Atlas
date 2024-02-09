@@ -11,6 +11,12 @@ import java.io.IOException;
 
 @WebServlet(name = "loginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+    private UsersDao usersDao;
+    @Override
+    public void init() throws ServletException {
+        usersDao = (UsersDao) getServletContext().getAttribute("usersDao");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession(false) != null) {
@@ -22,7 +28,6 @@ public class LoginServlet extends HttpServlet {
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if ("login".equalsIgnoreCase(cookie.getName())) {
-                        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
                         User user = usersDao.getByLogin(cookie.getValue());
                         HttpSession httpSession = req.getSession(true);
                         httpSession.setAttribute("login", user.getLogin());
@@ -46,7 +51,6 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         String safePassword = PasswordUtil.encrypt(password);
 
-        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin(login);
 
         if (user != null && user.getPassword().equals(safePassword)) {

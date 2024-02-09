@@ -13,9 +13,14 @@ import java.io.IOException;
 
 @WebServlet(name = "profileServlet", urlPatterns = "/profile")
 public class ProfileServlet extends HttpServlet {
+    private UsersDao usersDao;
+    @Override
+    public void init() throws ServletException {
+        usersDao = (UsersDao) getServletContext().getAttribute("usersDao");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin((String) req.getSession(false).getAttribute("login"));
 
 

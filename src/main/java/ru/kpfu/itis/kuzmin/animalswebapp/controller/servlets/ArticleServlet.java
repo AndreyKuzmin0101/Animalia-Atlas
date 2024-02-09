@@ -12,9 +12,15 @@ import java.io.IOException;
 
 @WebServlet(name = "articleServlet", urlPatterns = "/articles")
 public class ArticleServlet extends HttpServlet {
+    private AnimalDao animalDao;
+
+    @Override
+    public void init() throws ServletException {
+        animalDao = (AnimalDao) getServletContext().getAttribute("animalDao");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
         Animal animal = animalDao.getByEnName(req.getParameter("animal"));
         if (animal == null) {
             resp.sendRedirect("/view/404.ftl");

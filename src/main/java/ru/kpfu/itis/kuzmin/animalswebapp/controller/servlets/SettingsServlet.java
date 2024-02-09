@@ -15,10 +15,20 @@ import java.io.IOException;
 
 @WebServlet(name = "settingsServlet", urlPatterns = "/settings")
 public class SettingsServlet extends HttpServlet {
+    private UsersDao usersDao;
+    private UsersServices usersServices;
+
     private User user;
+
+    @Override
+    public void init() throws ServletException {
+        usersDao = (UsersDao) getServletContext().getAttribute("usersDao");
+        usersServices = (UsersServices) getServletContext().getAttribute("usersServices");
+
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         user = usersDao.getByLogin((String) req.getSession().getAttribute("login"));
 
         req.setAttribute("user", new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(),
@@ -36,7 +46,6 @@ public class SettingsServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
         String result = usersServices.updateUser(user, new User(
                 user.getId(), firstName, lastName, age, email, login, password, user.getImage())
         );

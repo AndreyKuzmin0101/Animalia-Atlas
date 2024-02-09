@@ -15,12 +15,16 @@ import java.util.List;
 
 @WebServlet(name = "favouriteServlet", urlPatterns = "/favourite-articles")
 public class FavouriteServlet extends HttpServlet {
+    private AnimalServices animalServices;
+
+    @Override
+    public void init() throws ServletException {
+        animalServices = (AnimalServices) getServletContext().getAttribute("animalServices");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer id = (Integer) req.getSession().getAttribute("id");
-
-        AnimalServices animalServices = (AnimalServices) req.getServletContext().getAttribute("animalServices");
 
         List<Animal> animals = animalServices.getLikedByUserId(id);
 

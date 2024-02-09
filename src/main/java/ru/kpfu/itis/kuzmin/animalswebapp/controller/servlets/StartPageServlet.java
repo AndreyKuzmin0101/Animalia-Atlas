@@ -15,10 +15,15 @@ import java.io.IOException;
 
 @WebServlet(name = "startPageServlet", urlPatterns = "")
 public class StartPageServlet extends HttpServlet {
+    private AnimalDao animalDao;
+
+    @Override
+    public void init() throws ServletException {
+        animalDao = (AnimalDao) getServletContext().getAttribute("animalDao");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
         Animal lion = animalDao.getByEnName("lion");
         Animal japaneseSable = animalDao.getByEnName("japanese sable");
         Animal stripedHyena = animalDao.getByEnName("striped hyena");

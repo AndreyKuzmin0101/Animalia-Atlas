@@ -26,6 +26,16 @@ import java.nio.file.Paths;
         maxRequestSize = 10 * 1024 * 1024
 )
 public class FileUploadingServlet extends HttpServlet {
+    private UsersDao usersDao;
+    private UsersServices usersServices;
+
+    @Override
+    public void init() throws ServletException {
+        usersDao = (UsersDao) getServletContext().getAttribute("usersDao");
+        usersServices = (UsersServices) getServletContext().getAttribute("usersServices");
+
+    }
+
     private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,11 +63,9 @@ public class FileUploadingServlet extends HttpServlet {
 
         cloudinary.uploader().upload(file, ObjectUtils.asMap("public_id", imagePath + filenameForCloudinary));
 
-        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
         User user = usersDao.getByLogin(login);
         user.setImage("https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath + filename);
 
-        UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
         usersServices.updateUserImage(user);
         resp.sendRedirect("/profile");
     }

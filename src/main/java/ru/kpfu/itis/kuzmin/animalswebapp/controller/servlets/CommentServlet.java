@@ -19,14 +19,19 @@ import java.util.List;
 @WebServlet(name = "commentServlet", urlPatterns = "/comments")
 
 public class CommentServlet extends HttpServlet {
+    private CommentServices commentServices;
+    private UsersDao usersDao;
+
+    @Override
+    public void init() throws ServletException {
+        commentServices = (CommentServices) getServletContext().getAttribute("commentServices");
+        usersDao = (UsersDao) getServletContext().getAttribute("usersDao");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String animalEnName = req.getParameter("animal");
-
-        CommentServices commentServices = (CommentServices) req.getServletContext().getAttribute("commentServices");
         List<Comment> comments = commentServices.getComments(animalEnName);
-
-        UsersDao usersDao = (UsersDao) req.getServletContext().getAttribute("usersDao");
 
         StringBuilder response = new StringBuilder();
         for (Comment comment : comments) {

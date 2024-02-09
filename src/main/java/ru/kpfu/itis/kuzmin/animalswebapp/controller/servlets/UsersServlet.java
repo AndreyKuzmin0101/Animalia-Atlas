@@ -13,12 +13,16 @@ import java.util.List;
 
 @WebServlet(name = "usersServlet", urlPatterns = "/users/*")
 public class UsersServlet extends HttpServlet {
+    private UsersServices usersServices;
+
+    @Override
+    public void init() throws ServletException {
+        usersServices = (UsersServices) getServletContext().getAttribute("usersServices");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
         if (req.getParameter("id") != null) {
-
             UserDTO user = usersServices.getById(Integer.valueOf(req.getParameter("id")));
             if (user == null) {
                 resp.sendRedirect("/view/404.ftl");

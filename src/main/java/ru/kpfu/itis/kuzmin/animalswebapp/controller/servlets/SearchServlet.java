@@ -17,15 +17,21 @@ import java.util.List;
 
 @WebServlet(name = "searchServlet", urlPatterns = "/search")
 public class SearchServlet extends HttpServlet {
+    private CategoryDao categoryDao;
+    private AnimalDao animalDao;
+
+    @Override
+    public void init() throws ServletException {
+        categoryDao = (CategoryDao) getServletContext().getAttribute("categoryDao");
+        animalDao = (AnimalDao) getServletContext().getAttribute("animalDao");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String query = req.getParameter("query");
         String categoryEnName = req.getParameter("category");
 
         List<Animal> animals = new ArrayList<>();
-
-        CategoryDao categoryDao = (CategoryDao) req.getServletContext().getAttribute("categoryDao");
-        AnimalDao animalDao = (AnimalDao) req.getServletContext().getAttribute("animalDao");
 
         List<Animal> animalsByCategory;
         if (categoryEnName != null && !categoryEnName.equals("")) {

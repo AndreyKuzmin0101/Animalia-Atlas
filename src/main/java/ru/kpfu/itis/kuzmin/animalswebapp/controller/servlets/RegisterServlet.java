@@ -10,6 +10,14 @@ import java.io.IOException;
 
 @WebServlet(name = "registerServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
+
+    private UsersServices usersServices;
+
+    @Override
+    public void init() throws ServletException {
+        usersServices = (UsersServices) getServletContext().getAttribute("usersServices");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession(false) != null) {
@@ -29,7 +37,6 @@ public class RegisterServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        UsersServices usersServices = (UsersServices) req.getServletContext().getAttribute("usersServices");
 
         String result = usersServices.saveUser(new User(
                 null, firstName, lastName, age, email, login, password, "https://res.cloudinary.com/debjgvnym/image/upload/bjgclwsmr3lkkpsjeebg.png")
