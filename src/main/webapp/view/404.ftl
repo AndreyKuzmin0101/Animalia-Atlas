@@ -3,7 +3,7 @@
 
 <#macro content>
     <div class="exception">
-        <h1>Запрашиваемый ресурс не существует :(</h1>
+        <h1>${message}</h1>
     </div>
 
 </#macro>

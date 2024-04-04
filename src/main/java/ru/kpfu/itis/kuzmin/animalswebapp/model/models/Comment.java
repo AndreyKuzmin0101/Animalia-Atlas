@@ -1,59 +1,28 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.model.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Entity
+@Table(name = "comments")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "user_id")
     private Integer userId;
     private String content;
+    @Column(name = "date_send")
     private Timestamp dateSend;
+    @Column(name = "animal_id")
     private Integer animalId;
-
-    public Comment(Integer id, Integer userId, String content, Timestamp dateSend, Integer animalId) {
-        this.id = id;
-        this.userId = userId;
-        this.content = content;
-        this.dateSend = dateSend;
-        this.animalId = animalId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Timestamp getDateSend() {
-        return dateSend;
-    }
-
-    public void setDateSend(Timestamp dateSend) {
-        this.dateSend = dateSend;
-    }
-
-    public Integer getAnimalId() {
-        return animalId;
-    }
-
-    public void setAnimalId(Integer animalId) {
-        this.animalId = animalId;
-    }
 }

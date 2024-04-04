@@ -1,4 +1,4 @@
-$.get('/authorization', function (response) {
+$.get('/auth-check', function (response) {
     if (Number(response)) {
         $('#header-buttons').append('<button id="profile-button" class="button header-button" type="button">Профиль</button>' +
             '<button id="logout-button" class="button header-button" type="button" style="background-color: red">Выйти</button>'

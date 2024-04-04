@@ -1,7 +1,7 @@
 let resp;
-$.get('/authorization', function (response) {
+$.get('/auth-check', function (response) {
     if (Number(response)) {
-        $.get('/like', function (response2) {
+        $.get('/like' + window.location.search, function (response2) {
             console.log(response2);
             if (Number(response2)) {
                 $('#like-button').addClass('like');
@@ -15,7 +15,7 @@ $('#like-button').on('click', function () {
     if (Number(resp)) {
         let likes = Number($('#like-count').html());
 
-        $.post('/like', function (response) {
+        $.post('/like' + window.location.search, function (response) {
             if (Number(response) > likes) {
                 $('#like-button').addClass('like');
             } else {
@@ -26,6 +26,4 @@ $('#like-button').on('click', function () {
     } else {
         alert('Войдите в аккаунт, чтобы лайкать статьи.');
     }
-
-
 });

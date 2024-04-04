@@ -1,66 +1,36 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.model.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "animals")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Animal {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
     private String image;
+    @Column(name = "en_name")
     private String enName;
-    private Integer likes;
-    public Animal(Integer id, String name, String description, String image, String enName, Integer likes) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
-        this.enName = enName;
-        this.likes = likes;
-    }
 
-    public Integer getLikes() {
-        return likes;
-    }
+    @ManyToMany(mappedBy = "animals")
+    private List<User> users;
 
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
-
-    public String getEnName() {
-        return enName;
-    }
-
-    public void setEnName(String enName) {
-        this.enName = enName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "animal_category",
+            joinColumns = @JoinColumn(name = "animal_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories;
 }

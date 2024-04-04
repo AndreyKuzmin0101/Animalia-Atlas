@@ -1,5 +1,5 @@
 $('#favourite').on('click', function () {
-    $.get('/authorization', function (response) {
+    $.get('/auth-check', function (response) {
         if (Number(response)) {
             window.location.replace("/favourite-articles");
         } else {

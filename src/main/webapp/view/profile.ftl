@@ -12,7 +12,7 @@
         <img <#if user.image = "">src="https://res.cloudinary.com/debjgvnym/image/upload/bjgclwsmr3lkkpsjeebg.png" <#else> src="${user.image}" </#if> width="150px">
         <form action="upload" method="post" enctype="multipart/form-data">
             <label for="file">Аватарка</label>
-            <input type="file" name="file" id="file" accept=".png, .jpg, .jpeg">
+            <input type="file" name="image" id="file" accept=".png, .jpg, .jpeg">
             <br>
             <input type="submit" value="Загрузить">
         </form>

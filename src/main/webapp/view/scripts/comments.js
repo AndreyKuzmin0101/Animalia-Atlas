@@ -4,14 +4,15 @@ $('document').ready(function () {
     });
 
     $('#send-button').on('click', function () {
-        $.get('/authorization', function (response) {
+        $.get('/auth-check', function (response) {
             if (Number(response)) {
                 let content = $('#content').val();
                 if (content.length > 2000) {
                     alert("Количество символов превышает 2000: " + content.length);
                     return;
                 }
-                $.post('/comments', {content : content}).done(function (){
+
+                $.post('/comments' + window.location.search, {content : content}).done(function (){
                     $('#content').val("");
                     $('#comment-list').text("");
                     $.get("/comments" + window.location.search, function (response) {

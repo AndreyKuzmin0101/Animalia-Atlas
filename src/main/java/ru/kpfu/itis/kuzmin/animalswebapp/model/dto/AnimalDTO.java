@@ -1,5 +1,7 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.model.dto;
 
+import ru.kpfu.itis.kuzmin.animalswebapp.model.models.Animal;
+
 public class AnimalDTO {
     private String name;
     private String description;
@@ -12,6 +14,7 @@ public class AnimalDTO {
         this.description = description;
         this.image = image;
         this.enName = enName;
+        this.likes = likes;
     }
 
     public Integer getLikes() {

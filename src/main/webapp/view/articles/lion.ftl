@@ -1,4 +1,4 @@
-<#import "/view/likes-comments-macros.ftl" as like_comments>
+<#import "/likes-comments-macros.ftl" as like_comments>
 
 <#macro title>Статья о львах</#macro>
 

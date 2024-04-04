@@ -1,26 +1,46 @@
 package ru.kpfu.itis.kuzmin.animalswebapp.model.services.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.RoleRepository;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.SpecificUserRepo;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.dto.UserDTO;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.exception.UserNotFoundException;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.models.Role;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.models.User;
-import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.UsersDao;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.dao.UsersRepository;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.services.UsersServices;
-import ru.kpfu.itis.kuzmin.animalswebapp.model.utils.PasswordUtil;
+import ru.kpfu.itis.kuzmin.animalswebapp.model.utils.CloudinaryUtil;
 import ru.kpfu.itis.kuzmin.animalswebapp.model.utils.ValidatorUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class UsersServicesImpl implements UsersServices {
-    private UsersDao usersDao;
-    public UsersServicesImpl(UsersDao usersDao) {
-        this.usersDao = usersDao;
-    }
+    private final UsersRepository usersRepository;
+    private final SpecificUserRepo specificUserRepo;
+    private final RoleRepository roleRepository;
+
+
+    private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
+    private final PasswordEncoder passwordUtil;
 
     @Override
     public String saveUser(User newUser) {
 
-        User userByLogin = usersDao.getByLogin(newUser.getLogin());
-        User userByEmail = usersDao.getByEmail(newUser.getEmail());
+        Optional<User> userByLogin = usersRepository.findByLogin(newUser.getLogin());
+        Optional<User> userByEmail = usersRepository.findByEmail(newUser.getEmail());
 
 
         if (!ValidatorUtil.validateEmail(newUser.getEmail())) {
@@ -29,18 +49,19 @@ public class UsersServicesImpl implements UsersServices {
         if(!ValidatorUtil.validatePassword(newUser.getPassword())) {
             return "Пароль не удовлетворяет требованиям.";
         }
-        String safePassword = PasswordUtil.encrypt(newUser.getPassword());
+        String safePassword = passwordUtil.encode(newUser.getPassword());
         newUser.setPassword(safePassword);
 
-        if (userByLogin != null) {
+        if (userByLogin.isPresent()) {
             return "Пользователь с таким логином уже существует";
         }
 
-        if (userByEmail != null) {
+        if (userByEmail.isPresent()) {
             return "Данный email уже используется.";
         }
 
-        usersDao.save(newUser);
+        newUser.setRoles(List.of(new Role(1, null, null)));
+        usersRepository.save(newUser);
         return null;
     }
     @Override
@@ -55,18 +76,18 @@ public class UsersServicesImpl implements UsersServices {
 
 
         if (!oldUser.getLogin().equals(updatedUser.getLogin())) {
-            User userByLogin = usersDao.getByLogin(updatedUser.getLogin());
-            if (userByLogin != null) {
+            Optional<User> userByLogin = usersRepository.findByLogin(updatedUser.getLogin());
+            if (userByLogin.isPresent()) {
                 return "Пользователь с таким логином уже существует";
             }
         }
 
         if (!oldUser.getEmail().equals(updatedUser.getEmail())) {
-            User userByEmail = usersDao.getByEmail(updatedUser.getEmail());
+            Optional<User> userByEmail = usersRepository.findByEmail(updatedUser.getEmail());
             if (!ValidatorUtil.validateEmail(updatedUser.getEmail())) {
                 return "Email не прошёл верификацию.";
             }
-            if (userByEmail != null) {
+            if (userByEmail.isPresent()) {
                 return "Данный email уже используется.";
             }
         }
@@ -75,25 +96,21 @@ public class UsersServicesImpl implements UsersServices {
             if(!ValidatorUtil.validatePassword(updatedUser.getPassword())) {
                 return "Пароль не удовлетворяет требованиям.";
             }
-            String safePassword = PasswordUtil.encrypt(updatedUser.getPassword());
+            String safePassword = passwordUtil.encode(updatedUser.getPassword());
             updatedUser.setPassword(safePassword);
         }
-
-        usersDao.update(updatedUser);
+        updatedUser.setRoles(roleRepository.findRolesByUserId(updatedUser.getId()));
+        specificUserRepo.update(updatedUser);
         return null;
 
     }
-    @Override
-    public void updateUserImage(User updatedUser) {
-        usersDao.update(updatedUser);
-    }
 
     public List<UserDTO> getAll() {
-        List<User> users = usersDao.getAll();
+        List<User> users = usersRepository.findAll();
         List<UserDTO> usersDTO = new ArrayList<>();
         for (User user : users) {
-            usersDTO.add(new UserDTO(
-                    user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAge(), user.getEmail(), user.getImage()
+            usersDTO.add(new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAge(),
+                    user.getEmail(), user.getImage()
             ));
         }
 
@@ -101,12 +118,64 @@ public class UsersServicesImpl implements UsersServices {
     }
 
     @Override
-    public UserDTO getById(Integer id) {
-        User user = usersDao.getById(id);
-        if (user != null) {
-            return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAge(), user.getEmail(), user.getImage());
+    public User getById(Integer id) {
+        Optional<User> optionalUser = usersRepository.findById(id);
+        return optionalUser.orElse(null);
+    }
+
+    @Override
+    public UserDTO getByLogin(String login) {
+        Optional<User> optionalUser = usersRepository.findByLogin(login);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(),
+                    user.getAge(), user.getEmail(), user.getImage());
         }
-        return null;
+        throw new UserNotFoundException(login);
+    }
+
+    @Override
+    public void updateImage(MultipartFile image, String login) throws IOException {
+        long currentTimeMillis = System.currentTimeMillis();
+        String filename = image.getName();
+
+        File file = new File(login + File.separator
+                + currentTimeMillis + File.separator + filename);
+
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+
+        try (InputStream content = image.getInputStream()) {
+            try (FileOutputStream outputStream = new FileOutputStream(file)) {
+                byte[] buffer = new byte[content.available()];
+                content.read(buffer);
+                outputStream.write(buffer);
+            }
+        }
+
+        String filenameForCloudinary = removeTypeFile(filename);
+        String imagePath = login + "/" + currentTimeMillis + "/";
+
+        cloudinary.uploader().upload(file, ObjectUtils.asMap("public_id", imagePath + filenameForCloudinary));
+
+        Optional<User> optionalUser = usersRepository.findByLogin(login);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setImage("https://res.cloudinary.com/debjgvnym/image/upload/" + imagePath + filename);
+            specificUserRepo.update(user);
+        } else {
+            throw new UserNotFoundException(login);
+        }
+
+    }
+
+    private String removeTypeFile(String filename) {
+        if (filename.endsWith(".png") || filename.endsWith(".jpg")) {
+            filename = filename.substring(0, filename.length()-4);
+        } else if (filename.endsWith(".jpeg")) {
+            filename = filename.substring(0, filename.length()-5);
+        }
+        return filename;
     }
 
 }
